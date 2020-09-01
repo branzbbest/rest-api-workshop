@@ -24,5 +24,4 @@ Route.group(() => {
   Route.resource('/teachers', 'TeacherController')
 
   Route.resource('/subjects', 'SubjectController')
-  Route.get('/subjects/:id/teacher', 'SubjectController.showTeacher')
 }).prefix('api/v1')

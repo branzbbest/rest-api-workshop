@@ -30,17 +30,6 @@ class SubjectController {
 
     return { stauts: 200, error: undefined, data: subject }
   }
-
-  async showTeacher({ request }) {
-    const { id } = request.params
-    const subject = await Database
-      .table('subjects')
-      .where({ subject_id: id })
-      .innerJoin('teachers', 'subjects.teacher_id', 'teachers.teacher_id')
-      .first()
-
-    return { status: 200, error: undefined, data: subject || {} }
-  }
 }
 
 module.exports = SubjectController
