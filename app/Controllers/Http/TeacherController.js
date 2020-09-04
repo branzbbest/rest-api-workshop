@@ -4,6 +4,7 @@ const Database = use('Database')
 const Hash = use('Hash')
 const Validator = use('Validator')
 const Teacher = use('App/Models/Teacher')
+const TeacherValidator = require("../../../service/TeacherValidator")
 
 function numberTypeParamValidator(number) {
   if (Number.isNaN(parseInt(number)))
@@ -35,17 +36,10 @@ class TeacherController {
   async store ({ request }) {
     const { first_name, last_name, email, password } = request.body
 
-    const rules = {
-      first_name: 'required',
-      last_name: 'required',
-      email: 'required|email|unique:teachers,email',
-      password: 'required|min:8'
-    }
+    const validatedData = await TeacherValidator(request.body)
 
-    const validation = await Validator.validateAll(request.body, rules)
-
-    if (validation.fails())
-      return { status: 422, error: validation.messages(), data: undefined }
+    if (validatedData.error)
+      return { status: 422, error: validatedData.error, data: undefined }
 
     const hashedPassword = await Hash.make(password)
 
