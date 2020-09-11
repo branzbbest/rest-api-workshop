@@ -6,7 +6,7 @@ const Schema = use('Schema')
 class CreateSubjectSchema extends Schema {
   up () {
     this.create('subjects', (table) => {
-      table.increments()
+      table.increments('subject_id')
       table.string('title').unique().notNullable()
       table.integer('teacher_id').notNullable().unsigned()
 

@@ -41,18 +41,13 @@ class TeacherController {
     if (validatedData.error)
       return { status: 422, error: validatedData.error, data: undefined }
 
-    const hashedPassword = await Hash.make(password)
-
-    const teacher = await Database
-      .table('teachers')
-      .insert({ first_name, last_name, email, password: hashedPassword })
+    const teacher = await Teacher
+      .create({ first_name, last_name, email, password })
 
     return { status: 200, error: undefined, data: { first_name, last_name, email } }
   }
 
   async update({ request }) {
-    // const body = request.body
-    // const params = request.params
     const { body, params } = request
     const { id } = params
     const { first_name, last_name, email } = body
